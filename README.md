@@ -27,7 +27,3 @@ SunCalc.getTimes(/*日期*/ date, /*纬度*/ latitude, /*精度*/ longitude)
 | `nightEnd`      | 夜晚结束(晨光开始)                        |
 | `nauticalDawn`  | 航海黎明(航海黎明开始)                         |
 | `dawn`          | 黎明(航海黎明结束，民用黎明开始)     |
-
-```javascript
-SunCalc.addTime(/*Number*/ angleInDegrees, /*String*/ morningName, /*String*/ eveningName)
-```
