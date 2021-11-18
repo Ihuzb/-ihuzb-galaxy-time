@@ -125,14 +125,14 @@ SunCalc.getTrueGalaxyTimes = (lat, lng, date = new Date()) => {
     const dateFormat = 'YYYY-MM-DD';
     let now = moment(date).format(dateFormat), now1 = moment(date).add(1, 'd').format(dateFormat);
     // 目的地经纬度坐标度数
-    var allTime = timeMap(SunCalc.getTimes(new Date(now), lat, lng));
-    var allTimeT = timeMap(SunCalc.getTimes(new Date(now1), lat, lng));
+    var allTime = SunCalc.getTimes(new Date(now), lat, lng);
+    var allTimeT = SunCalc.getTimes(new Date(now1), lat, lng);
     //  rise：银河升起 mid：银河90°时间  set：银河降落
-    let galaxyTime = timeMap(SunCalc.getGalaxyTimes(new Date(now), lat, lng));
-    let galaxyTimeT = timeMap(SunCalc.getGalaxyTimes(new Date(now1), lat, lng));
+    let galaxyTime = SunCalc.getGalaxyTimes(new Date(now), lat, lng);
+    let galaxyTimeT = SunCalc.getGalaxyTimes(new Date(now1), lat, lng);
     //  rise:月亮升起 set:月亮落下
-    let moonTime = timeMap(SunCalc.getMoonTimes(new Date(now), lat, lng));
-    let moonTimeT = timeMap(SunCalc.getMoonTimes(new Date(now1), lat, lng));
+    let moonTime = SunCalc.getMoonTimes(new Date(now), lat, lng);
+    let moonTimeT = SunCalc.getMoonTimes(new Date(now1), lat, lng);
     // 黑夜开始
     let {night} = allTime;
     // 黑夜结束
@@ -175,7 +175,7 @@ SunCalc.getTrueGalaxyTimes = (lat, lng, date = new Date()) => {
     // 银河出现时间是否于黑夜重合
     let {isShow, time} = isIntersect([night.unix, nightEnd.unix], [start.unix, end.unix]);
 
-    let timeSE = {};
+    let timeSE = {code: 1};
     // 今夜是否出现银河
     if (isShow) {
         // 获得夜晚可见时间段
@@ -198,9 +198,16 @@ SunCalc.getTrueGalaxyTimes = (lat, lng, date = new Date()) => {
             // console.log("适宜观测3", `时间段：${moonEnd.date}~${end.date}`);
         } else {
             // console.log("不适宜观测1")
+            timeSE["code"] = 0;
         }
     } else {
         // console.log("不适宜观测2")
+        timeSE["code"] = 0;
+    }
+    if (timeSE.code == 1) {
+        var a = moment(timeSE.start.date);
+        var b = moment(timeSE.end.date);
+        timeSE["hours"] = (b.diff(a, 'hours', true)).toFixed(2);
     }
     return timeSE
 }
@@ -305,7 +312,7 @@ SunCalc.getTimes = function (date, lat, lng) {
         result[time[2]] = fromJulian(Jset);
     }
 
-    return result;
+    return timeMap(result);
 };
 
 
@@ -433,7 +440,7 @@ SunCalc.getMoonTimes = function (date, lat, lng, inUTC) {
 
     if (!rise && !set) result[ye > 0 ? 'alwaysUp' : 'alwaysDown'] = true;
 
-    return result;
+    return timeMap(result);
 };
 
 SunCalc.getGalaxyPosition = function (date, lat, lng) {
@@ -502,7 +509,8 @@ SunCalc.getGalaxyTimes = function (date, lat, lng, inUTC) {
 
     if (!rise && !set) result[ye > 0 ? 'alwaysUp' : 'alwaysDown'] = true;
 
-    return result;
+    return timeMap(result);
 };
 
-export default SunCalc;
+// export default SunCalc;
+module.exports = SunCalc;
