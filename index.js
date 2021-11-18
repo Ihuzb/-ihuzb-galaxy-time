@@ -512,5 +512,5 @@ SunCalc.getGalaxyTimes = function (date, lat, lng, inUTC) {
     return timeMap(result);
 };
 
-// export default SunCalc;
-module.exports = SunCalc;
+export default SunCalc;
+// module.exports = SunCalc;
