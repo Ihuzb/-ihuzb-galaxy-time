@@ -120,7 +120,7 @@ var SunCalc = {};
 
 
 //查询最佳银河观测时间
-SunCalc.getTrueGalaxyTimes = (lat, lng, date = new Date()) => {
+SunCalc.getTrueGalaxyTimes = (date = new Date(), lat, lng) => {
     if (!lat || !lng) return {};
     const dateFormat = 'YYYY-MM-DD';
     let now = moment(date).format(dateFormat), now1 = moment(date).add(1, 'd').format(dateFormat);
@@ -190,7 +190,7 @@ SunCalc.getTrueGalaxyTimes = (lat, lng, date = new Date()) => {
             // console.log("适宜观测2", `时间段：${start.date}~${end.date}`);
         } else if (end.unix <= moonStart.unix) {
             timeSE["start"] = start;
-            timeSE["end"] = moonStart;
+            timeSE["end"] = end;
             // console.log("适宜观测4", `时间段：${start.date}~${moonStart.date}`);
         } else if (start.unix <= moonEnd.unix && moonEnd.unix <= end.unix) {
             timeSE["start"] = moonEnd;
