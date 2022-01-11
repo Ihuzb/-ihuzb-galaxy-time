@@ -137,10 +137,10 @@ SunCalc.getTrueGalaxyTimes = (date = new Date(), lat, lng) => {
     let {night} = allTime;
     // 黑夜结束
     let {nightEnd} = allTimeT;
-    // 当天月落
-    let {rise: moonRise, set: moonSet} = moonTime;
     // 隔天月落
     let {rise: moonRiseT, set: moonSetT} = moonTimeT;
+    // 当天月落
+    let {rise: moonRise = moonRiseT, set: moonSet = moonSetT} = moonTime;
     // 当前银河
     let {rise: galaxyRise, set: galaxySet} = galaxyTime;
     // 隔天银河
